@@ -59,5 +59,3 @@ If you would like to contribute to this project, feel free to fork the repositor
 
 This project was inspired by the need to quickly clean up code before committing it to version control systems like GitHub. The UI was designed to be simple and familiar to developers who frequently use GitHub.
 
-![image](https://github.com/user-attachments/assets/41edd1b6-e1c7-44bc-a7ab-5cf7a54ce760)
-
