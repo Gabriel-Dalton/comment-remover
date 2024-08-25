@@ -9,6 +9,8 @@
 - **Copy Code**: Copy the cleaned code to your clipboard for easy pasting into your project.
 - **Notification System**: Displays a non-intrusive notification when actions like removing comments or copying code are successfully completed.
 
+![image](https://github.com/user-attachments/assets/c0070eb4-51cc-4b01-9c8e-7db899d2280d)
+
 ## Usage
 
 1. **Paste your code** into the provided text area.
@@ -57,7 +59,5 @@ If you would like to contribute to this project, feel free to fork the repositor
 
 This project was inspired by the need to quickly clean up code before committing it to version control systems like GitHub. The UI was designed to be simple and familiar to developers who frequently use GitHub.
 
-
-![image](https://github.com/user-attachments/assets/c0070eb4-51cc-4b01-9c8e-7db899d2280d)
 ![image](https://github.com/user-attachments/assets/41edd1b6-e1c7-44bc-a7ab-5cf7a54ce760)
 
