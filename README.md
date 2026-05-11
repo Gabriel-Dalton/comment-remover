@@ -1,61 +1,99 @@
 # Comment Remover
 
-**Comment Remover** is a simple web-based tool designed to help developers quickly remove comments from their code. This tool is built using HTML, CSS, and JavaScript and provides an easy-to-use interface that mimics the aesthetic of GitHub.
-
-## Features
-
-- **Comment Removal**: Automatically detects and removes comments from the pasted code.
-- **Reset**: Clear the input and output fields with a single click.
-- **Copy Code**: Copy the cleaned code to your clipboard for easy pasting into your project.
-- **Notification System**: Displays a non-intrusive notification when actions like removing comments or copying code are successfully completed.
+**Comment Remover** is a fast, offline, privacy-friendly web tool that strips
+comments from source code. Everything runs in your browser — no code ever
+leaves your device.
 
 ![image](https://github.com/user-attachments/assets/c0070eb4-51cc-4b01-9c8e-7db899d2280d)
 
+## Features
+
+- **Multi-language support** with string-aware parsing — comment markers inside
+  string literals are never mistaken for comments:
+  - JavaScript / TypeScript (incl. template literals and `${...}`)
+  - Python (triple-quoted strings preserved)
+  - HTML / XML / Vue / Svelte
+  - CSS / SCSS / LESS
+  - C / C++ / Java / Go / Rust / Swift / Kotlin / PHP / Scala / Dart
+  - SQL
+  - Shell / Bash / Ruby / YAML / TOML / Perl / R
+  - Lua
+- **Auto-detect language** from file extension or content.
+- **Removal options:**
+  - Preserve docstrings & JSDoc (`/** ... */`)
+  - Preserve license / copyright headers and shebangs (`#!`)
+  - Collapse consecutive blank lines
+  - Trim trailing whitespace
+- **File upload** via button or drag-and-drop (up to 5 MB).
+- **Download** the cleaned output with a sensible filename.
+- **Copy** to clipboard using the modern Clipboard API.
+- **Statistics** showing comments removed, lines removed, characters saved, and
+  percentage reduction.
+- **Light & dark themes** with system-preference detection and persistence.
+- **Toast notifications** instead of intrusive `alert()` dialogs.
+- **Keyboard shortcuts:**
+  - `Ctrl/Cmd + Enter` — remove comments
+  - `Ctrl/Cmd + L` — reset
+  - `Ctrl/Cmd + Shift + C` — copy output
+  - `Ctrl/Cmd + S` — download output
+  - `Ctrl/Cmd + J` — toggle theme
+- **Responsive layout** that works on phones, tablets, and desktops.
+- **Persistent preferences** — language and option choices are remembered.
+
 ## Usage
 
-1. **Paste your code** into the provided text area.
-2. Click on **"Commit & Remove Comments"** to clean the code from any comments.
-3. Use the **"Copy Code"** button to copy the cleaned code to your clipboard.
-4. You can click on **"Reset"** to clear the input and output areas and start over.
+1. Paste your code (or drag-and-drop a file) into the input panel.
+2. Pick the language, or leave it on **Auto-detect**.
+3. Tick the options you want.
+4. Click **Remove Comments** (or press `Ctrl/Cmd + Enter`).
+5. **Copy** or **Download** the cleaned output.
 
 ## Installation
 
-No installation is required to use Comment Remover. Simply download the files and open the `index.html` file in your browser.
+No build step required. Clone the repo and open `index.html` in your browser,
+or serve the directory with any static file server:
+
+```sh
+python3 -m http.server 8000
+# then visit http://localhost:8000
+```
 
 ## Files
 
-- `index.html`: The main HTML file for the interface.
-- `styles.css`: Contains all the styles to match the GitHub aesthetic.
-- `script.js`: Handles the logic for removing comments, resetting the form, copying the code, and displaying notifications.
+- `index.html` — Markup for the interface.
+- `styles.css` — Themeable design system (CSS variables for dark/light).
+- `script.js` — Comment removers, file I/O, shortcuts, toasts.
 
 ## Example
 
-```html
-<body>
-    <!-- Your HTML content here -->
+Input:
 
-    <script src="assets/scripts.js"></script>
-</body>
+```js
+// Bootstraps the app
+import { start } from './app.js';
+
+/**
+ * Entry point.
+ */
+start(); // kick things off
 ```
 
-After processing through the tool, it becomes:
+Output (with **Preserve docstrings & JSDoc** enabled):
 
-```html
-<body>
+```js
+import { start } from './app.js';
 
-    <script src="assets/scripts.js"></script>
-</body>
+/**
+ * Entry point.
+ */
+start();
 ```
 
 ## License
 
-This project is open-source and available under the MIT License.
+MIT.
 
 ## Contributing
 
-If you would like to contribute to this project, feel free to fork the repository and submit a pull request. Please ensure that your changes are well-documented and tested.
-
-## Acknowledgments
-
-This project was inspired by the need to quickly clean up code before committing it to version control systems like GitHub. The UI was designed to be simple and familiar to developers who frequently use GitHub.
-
+Pull requests welcome. Please include a short description of the change and,
+where possible, a test snippet that exercises any new parser branch.
