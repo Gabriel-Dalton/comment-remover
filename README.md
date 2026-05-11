@@ -4,7 +4,8 @@
 comments from source code. Everything runs in your browser — no code ever
 leaves your device.
 
-![image](https://github.com/user-attachments/assets/c0070eb4-51cc-4b01-9c8e-7db899d2280d)
+<img width="1918" height="866" alt="image" src="https://github.com/user-attachments/assets/9c1a3f7c-07e4-41ec-b15a-ccd565c9bb7d" />
+
 
 ## Features
 
