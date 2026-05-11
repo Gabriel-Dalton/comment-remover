@@ -1,24 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comment Remover</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comment Remover — strip comments from any code</title>
+    <meta name="description" content="A fast, offline, privacy-friendly tool to strip comments from your source code. Supports JavaScript, TypeScript, Python, HTML, CSS, SQL, Shell and more." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Comment Remover</h1>
-        <textarea id="inputCode" placeholder="Paste your code here..."></textarea>
-        <div class="buttons-container">
-            <button id="resetButton" onclick="resetForm()">Reset</button>
-            <button id="commitButton" onclick="removeComments()">Commit & Remove Comments</button>
+    <header class="site-header">
+        <div class="brand">
+            <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.32-1.28-1.67-1.28-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .5Z"/>
+            </svg>
+            <div class="brand-text">
+                <h1>Comment Remover</h1>
+                <p class="tagline">Strip comments from any code &mdash; locally, in your browser.</p>
+            </div>
         </div>
-        <div class="result-container">
-            <textarea id="outputCode" readonly></textarea>
-            <button id="copyButton" onclick="copyToClipboard()">Copy Code</button>
+        <div class="header-actions">
+            <a class="ghost-btn" href="https://github.com/Gabriel-Dalton/comment-remover" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.32-1.28-1.67-1.28-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.94 10.94 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.43-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+                <span>GitHub</span>
+            </a>
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme (Ctrl+J)">
+                <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66 1.41-1.41M4.93 19.07l1.41-1.41m0-11.32L4.93 4.93m14.14 14.14-1.41-1.41M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/></svg>
+            </button>
         </div>
-    </div>
+    </header>
+
+    <main class="container">
+        <section class="toolbar" aria-label="Options">
+            <div class="toolbar-row">
+                <label class="field">
+                    <span class="field-label">Language</span>
+                    <select id="languageSelect">
+                        <option value="auto">Auto-detect</option>
+                        <option value="javascript">JavaScript / TypeScript</option>
+                        <option value="python">Python</option>
+                        <option value="html">HTML / XML / Vue / Svelte</option>
+                        <option value="css">CSS / SCSS / LESS</option>
+                        <option value="c">C / C++ / Java / Go / Rust / Swift / Kotlin / PHP</option>
+                        <option value="sql">SQL</option>
+                        <option value="shell">Shell / Bash / Ruby / YAML / TOML / Perl / R</option>
+                        <option value="lua">Lua</option>
+                    </select>
+                </label>
+
+                <div class="options-group" role="group" aria-label="Removal options">
+                    <label class="checkbox">
+                        <input type="checkbox" id="optPreserveDocs" />
+                        <span>Preserve docstrings &amp; JSDoc</span>
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" id="optPreserveLicense" checked />
+                        <span>Preserve license / shebang headers</span>
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" id="optCollapseBlankLines" checked />
+                        <span>Collapse blank lines</span>
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" id="optTrimTrailing" checked />
+                        <span>Trim trailing whitespace</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <div class="panel" data-panel="input">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span class="dot dot-input" aria-hidden="true"></span>
+                        <span>Input</span>
+                    </div>
+                    <div class="panel-actions">
+                        <span class="meta" id="inputMeta">0 lines · 0 chars</span>
+                        <button class="icon-btn" id="uploadButton" title="Upload file" aria-label="Upload file">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M12 16V4m0 0-4 4m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                        </button>
+                        <input id="fileInput" type="file" accept=".js,.jsx,.mjs,.cjs,.ts,.tsx,.py,.html,.htm,.xml,.svg,.vue,.svelte,.css,.scss,.sass,.less,.c,.h,.cpp,.hpp,.cc,.cs,.java,.go,.rs,.swift,.kt,.kts,.php,.sql,.sh,.bash,.zsh,.fish,.yaml,.yml,.toml,.rb,.pl,.r,.lua,.json,.txt" hidden />
+                    </div>
+                </div>
+                <div class="editor-wrap" id="inputDropzone">
+                    <textarea id="inputCode" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Paste your code here, drop a file, or click upload…"></textarea>
+                    <div class="drop-overlay" aria-hidden="true">
+                        <div class="drop-message">Drop file to load</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" data-panel="output">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <span class="dot dot-output" aria-hidden="true"></span>
+                        <span>Output</span>
+                    </div>
+                    <div class="panel-actions">
+                        <span class="meta" id="outputMeta">0 lines · 0 chars</span>
+                        <button class="icon-btn" id="downloadButton" title="Download (Ctrl+S)" aria-label="Download cleaned code" disabled>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0-4-4m4 4 4-4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                        </button>
+                        <button class="icon-btn" id="copyButton" title="Copy (Ctrl+Shift+C)" aria-label="Copy output to clipboard" disabled>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M8 4h10a2 2 0 0 1 2 2v12M16 8H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="editor-wrap">
+                    <textarea id="outputCode" spellcheck="false" readonly placeholder="Cleaned code will appear here…"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="actions">
+            <button id="resetButton" class="btn btn-secondary">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+                Reset
+            </button>
+            <button id="commitButton" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+                Remove Comments
+                <kbd class="kbd">Ctrl + Enter</kbd>
+            </button>
+        </section>
+
+        <section class="stats" id="stats" hidden>
+            <div class="stat">
+                <span class="stat-label">Comments removed</span>
+                <span class="stat-value" id="statComments">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Lines removed</span>
+                <span class="stat-value" id="statLines">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Characters saved</span>
+                <span class="stat-value" id="statChars">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Reduction</span>
+                <span class="stat-value" id="statPct">0%</span>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <span>Runs 100% in your browser &mdash; no code ever leaves your device.</span>
+        <span class="shortcut-list">
+            <kbd>Ctrl</kbd>+<kbd>Enter</kbd> run ·
+            <kbd>Ctrl</kbd>+<kbd>L</kbd> reset ·
+            <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd> copy ·
+            <kbd>Ctrl</kbd>+<kbd>S</kbd> download ·
+            <kbd>Ctrl</kbd>+<kbd>J</kbd> theme
+        </span>
+    </footer>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
